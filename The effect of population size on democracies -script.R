@@ -1,7 +1,7 @@
 library(tidyverse)
 library(ggthemes)
 
-setwd("C:/Users/luisn/OneDrive - Universit‰t St.Gallen/FS22/Democratic Choice and Welfare/Relevant Litterature")
+#setwd("C:/Users/luisn/OneDrive - Universit√§t St.Gallen/FS22/Democratic Choice and Welfare/Relevant Litterature")
 
 ------------------------------------------------------------------------------------------
   ## 
