@@ -1,23 +1,12 @@
 library(tidyverse)
 library(ggthemes)
 
-#setwd("C:/Users/luisn/OneDrive - Universität St.Gallen/FS22/Democratic Choice and Welfare/Relevant Litterature")
-
-------------------------------------------------------------------------------------------
   ## 
-  # code for Figure 1: The size of parliaments (log-log plot)
-  
-# information on the data:
-# The list_of_democracies comes from the economists democracy index ranking of 2021
-  #https://www.eiu.com/n/campaigns/democracy-index-2021/
-# The data for size_of_parliament comes from a wikipedia-table.
-  #https://en.wikipedia.org/wiki/List_of_legislatures_by_number_of_members
-# The data was gathered and cleaned using excel and saved as a csv file. 
-#The respective files can be downloaded from the repository.
- 
+# code for Figure 1: The size of parliaments (log-log plot)
+#----------------------------------------------------------------------  
 # load data from files
 d_index <- read.csv2("list_of_democracies.csv",header = TRUE)
-parl_size <- read.csv2("size_of_parliament .csv",header = TRUE)
+parl_size <- read.csv2("size_of_parliament.csv",header = TRUE)
 
 # rename columns
 colnames(parl_size) <- c("country","size_parlament","population")
@@ -41,12 +30,16 @@ data[,4]<- as.numeric(gsub(",", "", data[,4]))
 # apply log for log-log plot
 size_parlament <- log(data$size_parlament)
 population <- log(data$population)
+
 # create data frame for log-log plot
 df <- data.frame(logPopulation=population,logParlamentSize=size_parlament)
+
 # estimate a linear model
 reg <- lm(size_parlament~population,data = df)
+
 # add fitted values to data frame
 df <- data.frame(logPopulation=population,logParlamentSize=size_parlament,fit=reg$fitted.values)
+
 # look at the estimated parameters for the model: P = a*N^theta
 a <- exp(reg$coefficients[1])
 a
@@ -57,15 +50,15 @@ theta
 ggplot(data=df, aes(x=logPopulation))+
   geom_point(aes(y=logParlamentSize), color="blue")+
   geom_line(aes(y=fit),color="red")+
-  labs(y = "number of MPs", x = "population size")+
-  ggtitle(" The size of parliaments (log-log plot)")+
+  ggtitle(" The Size of Parliaments (log-log plot)")+
+  labs(y = "Number of MPs (log)", x = "Population size (log)")+
   theme_economist() +
   scale_colour_economist()
 
 
-------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------
   ## 
-  # code for Figure 2: Condorcet's Jury Theorem visualized
+# code for Figure 2: Condorcet's Jury Theorem visualized
  
 # we write a function to calculate the probability Pn that the majority vote 
 # chooses the correct alternative.
@@ -108,10 +101,10 @@ ggplot(data = Condorcets_Jury_Teorem, aes(x = number_of_voters))+
   geom_line(aes(y=Pn_0.55,color="0.55"))+
   geom_line(aes(y=Pn_0.6,color="0.6"))+
   labs(y = "Pn", x = "n")+
-  labs(color = "Competence:")+
+  labs(color = "Competence (pc):")+
   ggtitle("Condorcet's Jury Theorem visualized")+
   theme_economist() +
   scale_colour_economist()
 
-
+#--------------------------------------------------------------------------------
 
